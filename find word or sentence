@@ -1,0 +1,26 @@
+#file Create 
+f = open("find.txt", "w")
+
+create =  f.write("i am Subham Gupta.... i love to play Clash of Clans.... ")
+# f.close()   You can Use there or 
+
+
+#open to read
+t = open("find.txt")
+
+search = t.read()    #search variable to use search 
+
+if "Gupta" in search:      #search Gupta is present or not!
+    print(" Gupta ji is present ")
+else:
+    print(" Gupts ji is not present ")
+
+t.close()   #close t varible file
+f.close()   #there use for close f variable file..
+
+with open("find.txt") as q:      #reead find.txt and seach clash of clans another way...
+    q1 = q.read()
+    if "Clash of Clans" in q1:
+        print("Clash of Clans is present")
+    else:
+        print("Clash of Clans is not present!")
