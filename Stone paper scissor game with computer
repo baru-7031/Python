@@ -1,0 +1,64 @@
+import random
+
+#Game Function define 
+def Game(randNo, num):
+
+    #Calculation for Stone papper scissor
+    if randNo == num:        # if computer and user same then return none 
+        return None
+    elif randNo == 1 :       #if computer chose Stone then
+        if num == 2:         # paper will
+            return True
+        elif num == 3:       #scissor loss
+            return False
+    elif randNo == 2 :       #if Computer chose paper then
+        if num == 3:         #scissor will
+            return True
+        elif num == 1:       #stone loss   
+            return False
+    elif randNo == 3 :       #if Computer chose scissor then 
+        if num == 1:         #stone will 
+            return True
+        elif num == 2:       #scissor loss
+            return False
+            
+        
+
+def mainFun():
+
+    #Print Stone Papper Scissor
+    print(" Stone(1) Papper(2) Scissor(3)\n")
+    print("Computer's turn : ")
+    num = int(input("Your Turn :  "))
+
+    #Randomly chose 
+    randNo = random.randint(1, 3)
+
+
+    print(f"\nComputer Chose : {randNo}")
+    print(f"You Chose : {num}")
+
+    #Function called 
+    result = Game(randNo, num)
+
+    if result == None  :
+        print("\nThis is is tie \n")
+    elif result:
+        print("\nContratulation  Your win \n")
+    else: 
+        print("\nSorry You Loss \n")   
+
+#1st time call main function
+    mainFun()
+
+#variable value true
+    userInput = True
+
+while userInput:                                 #This Loop use for Continue this game
+    print("    Do you want Play again Type : yes or no :  ", end=" ")
+    userInput = input("Your Choice : ")
+    if userInput == "yes":                       #if yes then game continue or no exit this loop
+         mainFun()
+    else:
+        print("..Thank You For using..")         #Thank You msg and exit
+        break
