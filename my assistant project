@@ -1,0 +1,288 @@
+import pyttsx3                                  #This package use for speak engine
+import speech_recognition as sr                 #This package use for speech_recognition 
+import datetime                                 #This package use for datetime
+import wikipedia                                #This package use for wikipedia
+import webbrowser                               #This package use for open webbrowser 
+import os                                       #This package use for open music and open windowns 
+import random                                   #This package use for collects Random Numbers                      
+
+
+
+engine = pyttsx3.init('sapi5')                  #This Line use for start engine 
+
+voices = engine.getProperty('voices')           #This line use for voice detection and get
+
+engine.setProperty('voice', voices[0].id)       #This line use for voice set example 0 for male 1 for female 
+
+    
+def speak(audio):                               #This function use for speak 
+    engine.say(audio)                           #for say
+    engine.runAndWait()                         #for speak loop
+
+def wishMe():                                   #This function use for wish
+    hour = int(datetime.datetime.now().hour)    #collect Time
+    if hour>=0 and hour<12:                     #for Good morning wish
+        speak("Good Morning")
+        print("Good Morning")
+    
+    elif hour > 12 and hour < 18:               #for afternoon wish
+        speak("Good Afternoon") 
+        print("Good Afternoon")
+    
+    elif hour > 18 and hour < 24:               #for evening wish
+        speak("Good Evening")
+        print("Good Evening")
+    
+    speak("Hello Buddy What's your name")       
+    name = takecommand()                        #collect name 
+    speak(f"Hey {name}, I am Loader How can I help You")
+    return name
+
+
+def takecommand():                              #This function use for microphone
+    #it takes micro phone input from the user and return the string output
+
+    r = sr.Recognizer()
+    with sr.Microphone() as source:             #Microphone recognizer 
+        print("Listening....")
+        r.pause_threshold = 1                   #use for recognizer hold
+        r.energy_threshold=1000
+        audio = r.listen(source)                #use for listen
+    
+    try:                                        #try use for bychance any error bypass
+        print("Recognizing.......")
+        quary = r.recognize_google(audio, language="en-in") #This is use for language 
+        print(f"User Said : {quary}\n")
+        speak("okay")
+    except Exception as e:
+        print(e)
+        print("Say that again Please......")
+        speak("Say that again Please")
+        return "None"
+    return quary
+
+if __name__ == "__main__":                      #Main function
+    name = wishMe()  
+    stoped = 0                                  
+    while True:                                 #infinite loop
+        quary = takecommand().lower()           #microphone function all are lower case
+
+        #quesions(quary)
+
+        if 'wikipedia' in quary:                #for open wikipedia and collect data 
+            speak("Searching Wikipedia.....")
+            quary = quary.replace("wikipedia", "")
+            wikipedia_results1 = wikipedia.summary(quary, sentences=2) #collect data and this data only 2 sentence set
+            speak("Accoring to Wikipedia ")
+            print(wikipedia_results1)
+            speak(wikipedia_results1)
+        
+        elif 'in wikipedia' in quary:                #for open wikipedia and collect data 
+            speak("Searching Wikipedia.....")
+            quary = quary.replace("in wikipedia", "")
+            wikipedia_results2 = wikipedia.summary(quary, sentences=2) #collect data and this data only 2 sentence set
+            speak("Accoring to Wikipedia ")
+            print(wikipedia_results2)
+            speak(wikipedia_results2)
+        
+        
+        elif 'youtube' in quary:           #This else if use for open Youtube
+            speak("Searching Youtube.....")
+            quary = quary.replace("in youtube", "")
+            quary = quary.replace("youtube", "")            
+            url="https://www.youtube.com/results?search_query="
+            search_url_youtube=url+quary
+            webbrowser.open(search_url_youtube)
+
+
+        elif 'google' in quary:            #This else if use for open Google
+            speak("Searching Google.....")
+            quary = quary.replace("in google", "")
+            quary = quary.replace("google", "")
+            url1="https://www.google.com/search?q="
+            search_url_google=url1+quary
+            webbrowser.open(search_url_google)
+        
+        elif 'play music' in quary:  #This else if use for play Music
+            music_dir = "E:\\music"
+            song = os.listdir(music_dir)
+            os.startfile(os.path.join(music_dir, song[random.randint(1, 20)])) #play music 
+        
+        elif 'open music' in quary:  #This else if use for play Music
+            music_dir = "E:\\music"
+            song = os.listdir(music_dir)
+            os.startfile(os.path.join(music_dir, song[random.randint(1, 20)])) #play music
+
+        elif 'play song' in quary:  #This else if use for play Music
+            music_dir = "E:\\music"
+            song = os.listdir(music_dir)
+            os.startfile(os.path.join(music_dir, song[random.randint(1, 20)])) #play music
+        
+        elif 'how are you' in quary:
+            speak(f"I'm good {name} how are you")               #reply how are you
+            print(f"I'm good {name} how are you")
+
+        elif 'good morning' in quary:
+            speak(f"Good morning {name} have a good day")       #reply good moring
+            print(f"Good morning {name} have a good day")
+        
+        elif 'good afternoon' in quary:
+            speak(f"Good afternoon {name} have a good day")     #reply afternoon
+            print(f"Good afternoon {name} have a good day")
+        
+        elif 'good morning' in quary:
+            speak(f"Good night {name} have a sweet dream")      #reply night
+            print(f"Good night {name} have a sweet dream")
+
+        elif 'i am fine' in quary:
+            speak(f"nice to talk to you {name}")                #replay i am fine
+            print(f"nice to talk to you {name}")
+
+        
+        elif 'what is your name' in quary:
+            speak("My name is Loader")                          #reply what is your name
+            print("My name is Loader")
+        
+        elif 'who is sabita gupta' in quary:
+            speak("sabita gupta is Subham gupta mother and she is so cute")     #reply who is sabita gupta 
+            print("sabita gupta is Subham gupta mother and she is so cute")
+
+        
+        elif 'tell me about you' in quary:                                      #reply tell me about you
+            speak('''Hello i'm your Assistent.i have created by Subham Gupta with help of python language
+            and My Name is loader.i'm you friend or assistent.''')
+            print('''Hello i'm your Assistent.i have created by Subham Gupta with help of python language
+            and My Name is loader.i'm you friend or assistent.''')
+        
+        elif 'hello loader' in quary:                                           #reply hello loader
+            speak("hey i am there tell me how can i help you")
+            print("hey i am there tell me how can i help you")
+
+        
+        elif 'hello' in quary:                                                  #reply hello
+            speak(f"hey i am there tell me {name} how can i help you")
+            print(f"hey i am there tell me {name}how can i help you")
+
+        
+        elif 'who are you' in quary:                                            #reply who are you
+            speak("Loader is my name")
+            print("loader is my name")
+
+
+        elif 'who create you' in quary:                                         #reply who create you
+            speak("Subham Gupta sir")
+            print("Subham Gupta sir")
+
+        
+        elif 'you are my best friend' in quary:                                 #reply you are my best friend
+            speak(f"Oh Thank You You also my best friend {name}")
+            print(f"Oh Thank You You also my best friend {name}")
+        
+        elif 'i have to friendship with you' in quary:                          #reply i have to friendship with you
+            speak(f"yeah {name} we are already friends")
+            print(f"yeah {name} we are already friends")
+        
+        elif 'do you want to friendship with me' in quary:                      #do you want to friendship with me
+            speak(f"yeah {name} we are already friends")
+            print(f"yeah {name} we are already friends") 
+
+        elif 'i love you' in quary:                                             #reply i love you
+            speak(f"Thank You i love you to {name}")
+            print(f"Thank You i love you to {name}")
+        
+        elif 'do you have girlfriend' in quary:                                 #reply do you have girlfriend
+            speak("No sir i don't have")
+            print("No sir i don't have")
+        
+        elif 'i have to go' in quary:                                           #reply i have to go
+            speak(f"ok sir bye take care your self {name}")
+            break
+
+
+        elif 'the time' in quary:               #This else if use for time
+            strTime = datetime.datetime.now().strftime("%H:%M:%S")  #set time 
+            print(strTime)
+            speak(f"{name} The time is {strTime}")
+            
+        
+        elif 'now bye' in quary:  #This else if Use for Bye means stop loop        
+            print("Bye Sir Have a Good day")
+            speak("Bye Sir Have a Good day")
+            break
+
+        elif 'tata' in quary:  #This else if Use for Bye means stop loop        
+            print("Bye Sir Have a Good day")
+            speak("Bye Sir Have a Good day")
+            break
+
+        elif 'bye bye' in quary:  #This else if Use for Bye means stop loop        
+            print("Bye Sir Have a Good day")
+            speak("Bye Sir Have a Good day")
+            break
+            
+        elif 'none' in quary:                      #if no reply then work
+            speak("say that again please")
+            print("say that again please")
+            stoped += 1 
+        
+        elif stoped == 4:                          #if 4times not reply any one then automatical stop program
+            speak(f"I think you are busy. or not there. i will talk to you later. nice to talk to you. have good day bye bye")
+            print(f"I think you are busy. or not there. i will talk to you later. nice to talk to you. have good day bye bye")
+            break
+            
+
+        elif 'open code' in quary:              #This else if use for open visual code
+            codePath = "C:\\Users\\subha\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"   #visual code path
+            os.startfile(codePath)              #open visual code
+        
+        elif 'open notepad' in quary:           #entry notepad
+            print("Do You Want To Read or type something")
+            speak("Do You Want To Read or type something")
+            hold = takecommand()
+            print(f"User Said : {hold}")
+            try:                                #if any error
+                    if 'type' in hold:          #write entry
+                        print("Do You want to edit or new file")
+                        speak("Do You want to edit or new file")
+                        hold = takecommand()
+                        if "edit" in hold:              #old file edit
+                            print("Say File Name and please add .txt")
+                            speak("Say File Name and please add .txt")
+                            value = takecommand()
+                            f = open(value, 'a')
+                            speak("what You Write ")
+                            f.write(f" {takecommand()}")
+                            f.close()
+                            speak("your file is saved")
+                        elif 'new file' in hold:        #create new file
+                            print("Say File Name and please add .txt")
+                            speak("Say File Name and please add .txt")
+                            value = takecommand()
+                            f = open(value, 'w')
+                            speak("what You Write ")
+                            f.write(f" {takecommand()}")
+                            f.close()
+                            speak("your file is saved")
+                        else:                           #else for nothing
+                            print("Sorry sir Your choice not match")
+                            speak("Sorry sir Your choice not match")
+                    elif 'read' in hold:                #read file
+                        print("Say File Name and please add .txt")
+                        speak("Say File Name and please add .txt")
+                        value1 = takecommand()
+                        f = open(value1, 'r')
+                        print(f.read())
+                        speak(f.read())
+                    else:
+                        print("Sorry Try again sir")
+                        speak("Sorry Try again sir")
+            except Exception as e:
+                print(e)
+                speak(e)
+        else:                                           #if not understand then search google
+            speak("Accoring to Google")
+            quary = quary.replace("in google", "")
+            quary = quary.replace("google", "")
+            else_url="https://www.google.com/search?q="
+            search_url_else=else_url+quary
+            webbrowser.open(search_url_else)
