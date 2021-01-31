@@ -1,2 +1,2 @@
 # Python
-SELF STUDY PYTHON..
+
